@@ -14,13 +14,23 @@ pipeline {
         }
       } 
     }
-    stage('Deploy our image') { 
+    stage('Push our image') { 
       steps { 
         script { 
           docker.withRegistry( '', registryCredential ) { 
             dockerImage.push() 
           }
         } 
+      }
+    }
+    stage('Deployment') {
+      steps {
+        script {
+          container('helm') {
+            // Init authentication and config for your kubernetes cluster
+            sh("helm upgrade --install --wait local-kube ./helm-local-jenkins-kube")
+          }
+        }
       }
     }
   }  

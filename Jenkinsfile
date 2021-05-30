@@ -1,18 +1,25 @@
 pipeline {
-  agent {
-    docker {
-      image 'node:6-alpine'
-      args '-p 3000:3000'
-    }
-  }
   environment {
+    registry = "knsakib/simple-node-local-jenkins-kube" 
+    registryCredential = '4ac13e38-8252-49a6-92f1-e2bcd019ade0' 
+    dockerImage = ''
     CI = 'true'
   }
-  stages {
-    stage('Build') {
-      steps {
-        sh 'npm install'
+  agent any
+  stage('Building our image') { 
+    steps { 
+      script { 
+        dockerImage = docker.build registry
       }
-    }
+    } 
   }
+  stage('Deploy our image') { 
+    steps { 
+      script { 
+        docker.withRegistry( '', registryCredential ) { 
+          dockerImage.push() 
+        }
+      } 
+    }
+  }  
 }

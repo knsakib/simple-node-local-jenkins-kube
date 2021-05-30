@@ -6,20 +6,22 @@ pipeline {
     CI = 'true'
   }
   agent any
-  stage('Building our image') { 
-    steps { 
-      script { 
-        dockerImage = docker.build registry
-      }
-    } 
-  }
-  stage('Deploy our image') { 
-    steps { 
-      script { 
-        docker.withRegistry( '', registryCredential ) { 
-          dockerImage.push() 
+  stages {
+    stage('Building our image') { 
+      steps { 
+        script { 
+          dockerImage = docker.build registry
         }
       } 
+    }
+    stage('Deploy our image') { 
+      steps { 
+        script { 
+          docker.withRegistry( '', registryCredential ) { 
+            dockerImage.push() 
+          }
+        } 
+      }
     }
   }  
 }

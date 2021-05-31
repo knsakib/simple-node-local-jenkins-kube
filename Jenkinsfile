@@ -26,7 +26,7 @@ pipeline {
     stage('Deployment') {
       steps {
         script {
-        sh "curl https://get.helm.sh/helm-v3.6.0-linux-amd64.tar.gz"
+        sh "wget https://get.helm.sh/helm-v3.6.0-linux-amd64.tar.gz"
         sh "tar -zxvf helm-v3.0.0-linux-amd64.tar.gz"
         sh "mv linux-amd64/helm /usr/local/bin/helm"
         sh """

@@ -26,6 +26,9 @@ pipeline {
     stage('Deployment') {
       steps {
         script {
+        sh "curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get-helm-3 > get_helm.sh"
+        sh "chmod 700 get_helm.sh"
+        sh "./get_helm.sh"
         sh """
         helm upgrade --install local-kube helm-local-jenkins-kube
         """

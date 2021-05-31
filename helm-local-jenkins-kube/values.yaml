@@ -41,7 +41,7 @@ securityContext: {}
 #   port: 80
 
 service:
-  type: NodePort
+  type: LoadBalancer
   port: 3000
 
 ingress:

@@ -14,7 +14,7 @@ pipeline {
         }
       } 
     }
-    stage('Push our image') { 
+    stage('Push image') { 
       steps { 
         script { 
           docker.withRegistry( '', registryCredential ) { 
@@ -24,7 +24,8 @@ pipeline {
       }
     }
     stage('Deployment') {
-      script {
+      steps {
+        script {
         sh """
         helm upgrade --install local-kube helm-local-jenkins-kube
         """
@@ -39,6 +40,7 @@ pipeline {
         //     --set image.repository=knsakib/simple-node-local-jenkins-kube helm-local-jenkins-kube
         // """
         sh "sleep 5"
+        }
       }
     }
   }  

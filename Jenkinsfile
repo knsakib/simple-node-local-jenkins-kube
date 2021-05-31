@@ -26,9 +26,6 @@ pipeline {
     stage('Deployment') {
       steps {
         script {
-        sh "wget https://get.helm.sh/helm-v3.6.0-linux-amd64.tar.gz"
-        sh "tar xvf helm-v3.0.0-linux-amd64.tar.gz"
-        sh "mv linux-amd64/helm /usr/local/bin/helm"
         sh """
         helm upgrade --install local-kube helm-local-jenkins-kube
         """

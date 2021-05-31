@@ -24,13 +24,21 @@ pipeline {
       }
     }
     stage('Deployment') {
-      steps {
-        script {
-          container('helm') {
-            // Init authentication and config for your kubernetes cluster
-            sh("helm upgrade --install --wait local-kube ./helm-local-jenkins-kube")
-          }
-        }
+      script {
+        sh """
+        helm upgrade --install local-kube helm-local-jenkins-kube
+        """
+        // sh """
+        // kubectl create secret docker-registry IMG_PULL_SECRET \
+        // --docker-server=https://registry.hub.docker.com --docker-username=${docker-user} \
+        // --docker-password=${docker-pass} --docker-email=${docker-email}>
+        // """
+        // sh """
+        // helm upgrade --install local-kube \
+        //     --set imagePullSecrets=${IMG_PULL_SECRET} \
+        //     --set image.repository=knsakib/simple-node-local-jenkins-kube helm-local-jenkins-kube
+        // """
+        sh "sleep 5"
       }
     }
   }  
